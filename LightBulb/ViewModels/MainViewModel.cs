@@ -20,7 +20,8 @@ namespace LightBulb.ViewModels
         private readonly ITemperatureService _temperatureService;
         private readonly IWindowService _windowService;
         private readonly IHotkeyService _hotkeyService;
-        private readonly IGeoService _geoService;
+        private readonly IGeoInfoService _geoInfoService;
+        private readonly ISolarInfoService _solarInfoService;
         private readonly IVersionCheckService _versionCheckService;
 
         private readonly Timer _checkForUpdatesTimer;
@@ -107,7 +108,8 @@ namespace LightBulb.ViewModels
             ITemperatureService temperatureService,
             IWindowService windowService,
             IHotkeyService hotkeyService,
-            IGeoService geoService,
+            IGeoInfoService geoInfoService,
+            ISolarInfoService solarInfoService,
             IVersionCheckService versionCheckService)
         {
             // Services
@@ -115,7 +117,8 @@ namespace LightBulb.ViewModels
             _temperatureService = temperatureService;
             _windowService = windowService;
             _hotkeyService = hotkeyService;
-            _geoService = geoService;
+            _geoInfoService = geoInfoService;
+            _solarInfoService = solarInfoService;
             _versionCheckService = versionCheckService;
 
             _temperatureService.Tick += TemperatureServiceTick;
@@ -346,17 +349,17 @@ namespace LightBulb.ViewModels
             // Geo info
             if (SettingsService.GeoInfo == null || !SettingsService.IsGeoInfoLocked)
             {
-                var geoInfo = await _geoService.GetGeoInfoAsync();
+                var geoInfo = await _geoInfoService.GetAsync();
                 if (geoInfo == null) return;
                 SettingsService.GeoInfo = geoInfo;
             }
 
             // Solar info
-            var solarInfo = await _geoService.GetSolarInfoAsync(SettingsService.GeoInfo);
-            if (solarInfo == null) return;
-
             if (SettingsService.IsInternetSyncEnabled)
             {
+                var geoInfo = SettingsService.GeoInfo;
+                var solarInfo = _solarInfoService.Get(geoInfo.Latitude, geoInfo.Longitude, DateTime.Today);
+
                 SettingsService.SunriseTime = solarInfo.SunriseTime;
                 SettingsService.SunsetTime = solarInfo.SunsetTime;
             }

@@ -20,10 +20,11 @@ namespace LightBulb
 
             // Services
             SimpleIoc.Default.Register<IGammaService, WindowsGammaService>();
-            SimpleIoc.Default.Register<IGeoService, WebGeoService>();
+            SimpleIoc.Default.Register<IGeoInfoService, GeoInfoService>();
             SimpleIoc.Default.Register<IHotkeyService, WindowsHotkeyService>();
             SimpleIoc.Default.Register<IHttpService, HttpService>();
             SimpleIoc.Default.Register<ISettingsService, FileSettingsService>();
+            SimpleIoc.Default.Register<ISolarInfoService, SolarInfoService>();
             SimpleIoc.Default.Register<ITemperatureService, TemperatureService>();
             SimpleIoc.Default.Register<IVersionCheckService, WebVersionCheckService>();
             SimpleIoc.Default.Register<IWindowService, WindowsWindowService>();
@@ -48,10 +49,11 @@ namespace LightBulb
 
             // ReSharper disable SuspiciousTypeConversion.Global
             (ServiceLocator.Current.GetInstance<IGammaService>() as IDisposable)?.Dispose();
-            (ServiceLocator.Current.GetInstance<IGeoService>() as IDisposable)?.Dispose();
+            (ServiceLocator.Current.GetInstance<IGeoInfoService>() as IDisposable)?.Dispose();
             (ServiceLocator.Current.GetInstance<IHotkeyService>() as IDisposable)?.Dispose();
             (ServiceLocator.Current.GetInstance<IHttpService>() as IDisposable)?.Dispose();
             (ServiceLocator.Current.GetInstance<ISettingsService>() as IDisposable)?.Dispose();
+            (ServiceLocator.Current.GetInstance<ISolarInfoService>() as IDisposable)?.Dispose();
             (ServiceLocator.Current.GetInstance<ITemperatureService>() as IDisposable)?.Dispose();
             (ServiceLocator.Current.GetInstance<IVersionCheckService>() as IDisposable)?.Dispose();
             (ServiceLocator.Current.GetInstance<IWindowService>() as IDisposable)?.Dispose();
