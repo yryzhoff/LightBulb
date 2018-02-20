@@ -4,3 +4,4 @@
 	2a. Run Manual_Gamma_Registry_Fix.reg as administrator
 	2b. Restart computer
 3. Use LightBulb_Portable.bat to launch the program (don't launch the exe directly)
+--------------------------------------
